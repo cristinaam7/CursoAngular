@@ -1,0 +1,71 @@
+<h2>Reactivos: <small>Dinámicos</small></h2>
+<hr>
+
+<form (ngSubmit)="guardar()" [formGroup]="miForm" autocomplete="off">
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form">Nombre</label>
+        <div class="col-sm-9">
+            <input type="text" class="form_control"
+                formControlName="nombre"
+                placeholder="Nombre de la persona">
+            <span class="form-text text-danger"
+                *ngIf="validarCampo('nombre')">
+                Este campo es obligatorio
+            </span>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form">Agregar</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input type="text" class="form_control"
+                    placeholder="Agregar favorito"
+                    [formControl]="nuevoFavorito"
+                    (keyup.enter)="agregarFavorito()">
+                <button class="btn btn-outline-primary"
+                    type="button"
+                    (click)="agregarFavorito()">
+                    Agregar
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form">Favoritos</label>
+        <div class="col-sm-9" formArrayName="favoritos">
+            <div class="input-group mb-1"
+                *ngFor="let favorito of favoritosArr.controls; let i=index">
+                <input class="form_control mb-1"
+                    [formControlName]="i">
+                <button class="btn btn-outline-danger"
+                    type="button"
+                    (click)="eliminarFavorito(i)">
+                    Eliminar
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <button type="submit"
+                class="btn btn-primary float-end">
+                Guardar
+            </button>
+        </div>
+    </div>
+</form>
+
+<span>Valid</span>
+<pre>{{ miForm.valid }}</pre>
+<br>
+
+<span>Formulario</span>
+<pre>{{ miForm.value | json }}</pre>
+
+<span>Nuevo juego</span>
+<pre>{{ nuevoFavorito.valid | json }}</pre>
